@@ -14,7 +14,7 @@
                                 placeholder="단어 제목"
                                 :id="`word_${index}`"
                                 v-model="words[index].word"
-                                @input="wordInput"
+                                @change="wordInput"
                                 autocomplete="off"
                             />
                         </div>
@@ -223,10 +223,6 @@ li {
 }
 .word input {
     width: 100%;
-    -webkit-ime-mode: active;
-    -moz-ime-mode: active;
-    -ms-ime-mode: active;
-    ime-mode: active;
 }
 .word-meaning {
     width: 56%;
