@@ -27,7 +27,7 @@ export default {
                     duration: 2000,
                 });
             reader.onload = (res) => {
-                this.$router.push({ name: "테스트", params: { words: res.target.result } });
+                this.$router.push({ name: "로드", params: { words: res.target.result } });
             };
             reader.onerror = (err) => console.error(err);
             reader.readAsText(file);

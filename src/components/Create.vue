@@ -87,6 +87,11 @@ export default {
     },
     created() {
         this.inko = new inko.Inko();
+        if (this.$route.params.words) {
+            this.words = JSON.parse(this.$route.params.words);
+            this.wtName = this.words.wtName;
+            this.words = this.words.words;
+        }
     },
     methods: {
         wordInput(index) {

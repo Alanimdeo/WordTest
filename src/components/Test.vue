@@ -1,5 +1,4 @@
 <template>
-    <!-- <p v-for="(meaning, word) in words" :key="word">{{ word }}: {{ meaning }}</p> -->
     <div class="wrap">
         <h1>단어시험</h1>
         <p class="wt-name">{{ wtName }}</p>
@@ -8,7 +7,7 @@
                 <li v-for="(word, index) in words" :key="word">
                     <div class="cover">
                         <div class="word">
-                            <p>{{ word.word }}</p>
+                            <p :class="score.incorrect.includes(index) ? 'red' : ''">{{ word.word }}</p>
                         </div>
                         <div class="word-meaning">
                             <div class="meaning" v-for="(meaning, meaningIndex) in word.meaning" :key="meaning">
@@ -27,8 +26,12 @@
                     </div>
                 </li>
             </ol>
+            <div v-if="score.complete">
+                <p>전체 {{ words.length }}개 단어 중 {{ score.correct }}개 정답</p>
+                <p>점수: {{ score.score }}점</p>
+            </div>
             <div class="bottom-buttons">
-                <button @click="score()">채점하기</button>
+                <button @click="doScore()">채점하기</button>
             </div>
         </div>
     </div>
@@ -41,6 +44,12 @@ export default {
             wtName: "제목 없음",
             words: null,
             answer: null,
+            score: {
+                complete: false,
+                correct: 0,
+                score: 0,
+                incorrect: [],
+            },
         };
     },
     created() {
@@ -60,21 +69,32 @@ export default {
         this.answer = answer;
     },
     methods: {
-        score() {
-            let maxScore = 0;
-            this.words.map((word) => word.meaning.map((meaning) => (maxScore += meaning.meaning.length)));
+        doScore() {
             let correct = 0;
+            let incorrect = [];
+            let maxScore = this.words.length;
+            // this.words.map((word) => word.meaning.map((meaning) => (maxScore += meaning.meaning.length)));
             this.answer.map((word, wordIndex) => {
+                let wordCorrect = 0;
                 word.meaning.map((meaning, meaningIndex) => {
                     let meaningSet = new Set(meaning.meaning);
+                    let meaningCorrect = false;
                     meaningSet.forEach((partMeaning) => {
-                        if (this.words[wordIndex].meaning[meaningIndex].meaning.includes(partMeaning)) correct++;
+                        if (this.words[wordIndex].meaning[meaningIndex].meaning.includes(partMeaning))
+                            meaningCorrect = true;
                     });
+                    if (meaningCorrect) wordCorrect++;
                 });
+                if (wordCorrect == word.meaning.length) correct++;
+                else incorrect.push(wordIndex);
             });
-            console.log("maxScore:", maxScore);
-            console.log("score:", correct);
-            console.log("max 100 score:", (correct / maxScore) * 100);
+            this.score.complete = true;
+            this.score.correct = correct;
+            this.score.score = (correct / maxScore) * 100;
+            this.score.incorrect = incorrect;
+            alert(
+                `전체 ${maxScore}개 단어 중 ${correct}개의 단어를 맞혔습니다.\n점수: ${(correct / maxScore) * 100}점`
+            );
         },
     },
 };
@@ -154,5 +174,8 @@ li {
 .meaning div input {
     width: 100%;
     margin-bottom: 4px;
+}
+.red {
+    color: red;
 }
 </style>
