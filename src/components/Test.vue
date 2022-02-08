@@ -93,11 +93,9 @@ export default {
             });
             this.score.complete = true;
             this.score.correct = correct;
-            this.score.score = (correct / maxScore) * 100;
+            this.score.score = Math.round((correct / maxScore) * 10000) / 100;
             this.score.incorrect = incorrect;
-            alert(
-                `전체 ${maxScore}개 단어 중 ${correct}개의 단어를 맞혔습니다.\n점수: ${(correct / maxScore) * 100}점`
-            );
+            alert(`전체 ${maxScore}개 단어 중 ${correct}개의 단어를 맞혔습니다.\n점수: ${this.score.score}점`);
         },
     },
 };
