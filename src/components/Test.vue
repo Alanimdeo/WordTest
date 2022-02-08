@@ -27,7 +27,10 @@
                 </li>
             </ol>
             <div v-if="score.complete">
-                <p>전체 {{ words.length }}개 단어 중 {{ score.correct }}개 정답</p>
+                <p>
+                    전체 {{ words.length }}개 단어 중 {{ score.correct }}개 정답, {{ words.length - score.correct }}개
+                    틀림
+                </p>
                 <p>점수: {{ score.score }}점</p>
             </div>
             <div class="bottom-buttons">
