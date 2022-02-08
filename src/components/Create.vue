@@ -146,7 +146,7 @@ export default {
             const element = document.createElement("a");
             element.setAttribute(
                 "href",
-                "data:text/plain;charset=utf-8," +
+                "data:application/octet-stream;charset=utf-8," +
                     encodeURIComponent(JSON.stringify({ wtName: this.wtName, words: this.words }, null, 2))
             );
             element.setAttribute("download", `${this.wtName}.wt`);
