@@ -14,7 +14,7 @@
                                 placeholder="단어 제목"
                                 :id="`word_${index}`"
                                 v-model="words[index].word"
-                                @change="wordInput"
+                                @input="wordInput(index)"
                                 autocomplete="off"
                             />
                         </div>
@@ -89,8 +89,8 @@ export default {
         this.inko = new inko.Inko();
     },
     methods: {
-        wordInput(e) {
-            e.target.value = this.inko.ko2en(e.target.value);
+        wordInput(index) {
+            this.words[index].word = this.inko.ko2en(this.words[index].word);
         },
         selectChange(e) {
             const [wordIndex, meaningIndex] = e.target.id.split("_").slice(1);
