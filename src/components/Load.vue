@@ -2,7 +2,7 @@
     <div class="wrap">
         <h1>파일 불러오기</h1>
         <p class="wt-name">제목: {{ wtName }}</p>
-        <label style="margin-bottom: 5%">
+        <label>
             <input type="checkbox" v-model="showWords" />
             단어장 보기
         </label>
@@ -29,6 +29,7 @@
                 </li>
             </ol>
         </div>
+        <label><input type="checkbox" v-model="shuffle" /> 단어장 섞기</label>
         <div class="bottom-buttons">
             <button @click="editWord()">단어 수정</button>
             <button @click="testStart()">시험 보기</button>
@@ -44,6 +45,7 @@ export default {
             file: null,
             wtName: null,
             words: null,
+            shuffle: false,
         };
     },
     created() {
@@ -57,7 +59,7 @@ export default {
             this.$router.push({ name: "생성", params: { words: this.file } });
         },
         testStart() {
-            this.$router.push({ name: "테스트", params: { words: this.file } });
+            this.$router.push({ name: "테스트", params: { words: this.file, shuffle: this.shuffle } });
         },
     },
 };
@@ -151,5 +153,8 @@ button:hover {
 }
 button:active {
     background-color: #1666a8;
+}
+label {
+    margin-bottom: 10px;
 }
 </style>

@@ -20,6 +20,7 @@
                                         v-model="answer[index].meaning[meaningIndex].meaning[i]"
                                         autocomplete="off"
                                     />
+                                    <p v-if="score.complete">정답: {{ meaning.meaning.join(", ") }}</p>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +61,7 @@ export default {
         const file = JSON.parse(this.$route.params.words);
         this.wtName = file.wtName;
         let words = file.words;
-        words.sort(() => Math.random() - 0.5);
+        if (this.$route.params.shuffle == "true") words.sort(() => Math.random() - 0.5);
         let answer = JSON.parse(JSON.stringify(words));
         answer.map((word) => {
             word.meaning.map((meaning) => {
@@ -175,6 +176,10 @@ li {
 .meaning div input {
     width: 100%;
     margin-bottom: 4px;
+}
+.meaning div p {
+    width: 100%;
+    margin-bottom: 2px;
 }
 .red {
     color: red;
