@@ -30,7 +30,15 @@ export default {
             reader.onload = (res) => {
                 this.$router.push({ name: "로드", params: { words: res.target.result } });
             };
-            reader.onerror = (err) => console.error(err);
+            reader.onerror = (err) => {
+                this.$toast.open({
+                    message: "오류가 발생했습니다! 로그를 확인해주세요.",
+                    type: "error",
+                    position: "top",
+                    duartion: 2000,
+                });
+                console.error(err);
+            };
             reader.readAsText(file);
         },
     },

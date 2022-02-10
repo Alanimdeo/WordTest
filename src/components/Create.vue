@@ -9,6 +9,7 @@
                 <li v-for="(word, index) in words" :key="word">
                     <div class="cover">
                         <div class="word">
+                            <button v-if="words.length != 1" @click="deleteWord(index)">✕</button>
                             <input
                                 type="text"
                                 placeholder="단어 제목"
@@ -20,6 +21,13 @@
                         </div>
                         <div class="word-meaning">
                             <div class="meaning" v-for="(meaning, meaningIndex) in words[index].meaning" :key="meaning">
+                                <button
+                                    style="margin-bottom: 4px"
+                                    v-if="words[index].meaning.length != 1"
+                                    @click="deleteWord(index, meaningIndex)"
+                                >
+                                    ✕
+                                </button>
                                 <select
                                     :id="`sel_${index}_${meaningIndex}`"
                                     @change="selectChange"
@@ -36,14 +44,21 @@
                                     </option>
                                 </select>
                                 <div>
-                                    <input
-                                        type="text"
-                                        placeholder="뜻"
-                                        v-for="(_, i) in meaning.meaning"
-                                        :id="`meaning_${index}_${meaningIndex}_${i}`"
-                                        v-model="words[index].meaning[meaningIndex].meaning[i]"
-                                        autocomplete="off"
-                                    />
+                                    <div class="part-meaning" v-for="(_, i) in meaning.meaning">
+                                        <input
+                                            type="text"
+                                            placeholder="뜻"
+                                            :id="`meaning_${index}_${meaningIndex}_${i}`"
+                                            v-model="words[index].meaning[meaningIndex].meaning[i]"
+                                            autocomplete="off"
+                                        />
+                                        <button
+                                            v-if="meaning.meaning.length != 1"
+                                            @click="deleteWord(index, meaningIndex, i)"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
                                     <button @click="addMeaning(index, meaningIndex)">뜻 추가</button>
                                 </div>
                             </div>
@@ -102,6 +117,12 @@ export default {
             const part = e.target.value.split(".")[0];
             this.words[wordIndex].meaning[meaningIndex].part = part;
         },
+        deleteWord(wordIndex, meaningIndex, partMeaningIndex) {
+            if (partMeaningIndex !== undefined)
+                this.words[wordIndex].meaning[meaningIndex].meaning.splice(partMeaningIndex, 1);
+            else if (meaningIndex !== undefined) this.words[wordIndex].meaning.splice(meaningIndex, 1);
+            else this.words.splice(wordIndex, 1);
+        },
         addWord() {
             this.words.push({
                 word: "",
@@ -129,7 +150,7 @@ export default {
                 meaning: [""],
             });
             setTimeout(
-                () => document.getElementById(`meaning_${index}_${this.words[index].meaning.length - 1}_0`).focus(),
+                () => document.getElementById(`sel_${index}_${this.words[index].meaning.length - 1}`).focus(),
                 10
             );
         },
@@ -220,6 +241,8 @@ ol {
     justify-content: center;
 }
 .word {
+    display: flex;
+    align-items: flex-start;
     width: 38%;
     margin-right: 2%;
 }
@@ -232,6 +255,10 @@ li {
 .word-meaning {
     width: 56%;
     margin: 0 2%;
+}
+.part-meaning {
+    display: flex;
+    width: 100% !important;
 }
 .meaning {
     width: 100%;
