@@ -1,10 +1,11 @@
 <template>
-    <h1>단어시험</h1>
-    <router-link class="button" to="/create">단어장 생성</router-link>
-    <p>또는</p>
-    <label class="button" for="fileInput">단어장 불러오기</label>
-    <input type="file" id="fileInput" accept=".wt" ref="file" @change="readFile()" />
-    <!-- <p>hello</p> -->
+    <div class="wrap">
+        <h1>단어시험</h1>
+        <router-link class="button" to="/create">단어장 생성</router-link>
+        <p>또는</p>
+        <label class="button bottom-margin" for="fileInput">단어장 불러오기</label>
+        <input type="file" id="fileInput" accept=".wt" ref="file" @change="readFile()" />
+    </div>
 </template>
 
 <script>
@@ -37,6 +38,12 @@ export default {
 </script>
 
 <style scoped>
+.wrap {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 input[type="file"] {
     display: none;
 }
@@ -44,7 +51,7 @@ input[type="file"] {
 h1 {
     font-size: 64px;
     font-weight: 100;
-    margin-top: 30%;
+    margin-top: 0;
 }
 
 .button {
@@ -60,8 +67,7 @@ h1 {
     font-size: 16px;
     transition-duration: 0.2s;
     display: inline-block;
-    /* width: auto; */
-    margin: auto;
+    margin: 0 auto;
     text-align: center;
     color: white;
     text-decoration-line: none;
@@ -73,5 +79,8 @@ h1 {
 
 .button:active {
     background-color: #1666a8;
+}
+.bottom-margin {
+    margin-bottom: 10%;
 }
 </style>
