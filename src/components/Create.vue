@@ -45,6 +45,12 @@
                                 </select>
                                 <div>
                                     <div class="part-meaning" v-for="(_, i) in meaning.meaning">
+                                        <button
+                                            v-if="meaning.meaning.length != 1"
+                                            @click="deleteWord(index, meaningIndex, i)"
+                                        >
+                                            ✕
+                                        </button>
                                         <input
                                             type="text"
                                             placeholder="뜻"
@@ -52,12 +58,6 @@
                                             v-model="words[index].meaning[meaningIndex].meaning[i]"
                                             autocomplete="off"
                                         />
-                                        <button
-                                            v-if="meaning.meaning.length != 1"
-                                            @click="deleteWord(index, meaningIndex, i)"
-                                        >
-                                            ✕
-                                        </button>
                                     </div>
                                     <button @click="addMeaning(index, meaningIndex)">뜻 추가</button>
                                 </div>
